@@ -1,0 +1,31 @@
+.IdeiasForm{
+    background: rgb(221, 206, 178);
+    height: 100%;
+    width: 100%;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.IdeiasForm a {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.IdeiasForm a {
+    display: flex;
+    margin: 20px;
+    justify-content: center;
+}
+.IdeiasForm  a{
+    text-decoration: none;
+    color: rgb(27, 24, 24);
+}
+
+.IdeiasForm a:hover{
+    border-bottom: 3px solid orange;
+}
+.IdeiasForm section {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }

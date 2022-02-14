@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovelAmigo.Domain.Entities;
 using MovelAmigo.Domain.Interfaces.Services;
+using System.IO;
+using System.Web;
 
 namespace MovelAmigo.API.Controllers
 {
@@ -14,9 +17,10 @@ namespace MovelAmigo.API.Controllers
     public class MovelController : ControllerBase
     {
         private readonly IMovelService _movelService;
-
-        public MovelController(IMovelService movelService){
+        private readonly IWebHostEnvironment _webhostingEnvironment;
+        public MovelController(IMovelService movelService, IWebHostEnvironment webhostingEnvironment){
             _movelService = movelService;
+            _webhostingEnvironment = webhostingEnvironment;
         }
         [HttpGet]
         public async Task<IActionResult> Get(){
@@ -46,8 +50,13 @@ namespace MovelAmigo.API.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Post(Product model){
+        public async Task<IActionResult> Post([FromForm] Product model){
             try{
+                if(model.DeliveryState == 0){
+                    model.DeliveryPrice = model.Price * 1.20;
+                }
+                 model.ImageName = await SaveImage(model.ImageFile);
+                 model.CreationTime = DateTime.Now;
                  var product = await _movelService.AddProduct(model);
                  if(product == null){
                      return NoContent();
@@ -59,11 +68,18 @@ namespace MovelAmigo.API.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Product model){
+        public async Task<IActionResult> Put( int id, Product model){
             try{
                 if(model.Id != id){
                     this.StatusCode(StatusCodes.Status409Conflict,
                     "The product you are trying to update is the wrong one.");
+                }
+                /*if(model.ImageFile != null){
+                    DeleteImage(model.ImageName);
+                    model.ImageName = await SaveImage(model.ImageFile);
+                }*/
+                if(model.DeliveryState == 0){
+                    model.DeliveryPrice = model.Price * 1.20;
                 }
                  var product = await _movelService.UpdateProduct(model);
                  if(product == null){
@@ -92,6 +108,22 @@ namespace MovelAmigo.API.Controllers
             catch (System.Exception ex){
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Error trying to delete de product with code:{id}. Erro: {ex.Message}");
             }
+        }
+        [NonAction]
+        public async Task<string> SaveImage(IFormFile imageFile){
+            string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+            imageName = imageName+DateTime.Now.ToString("yymmssfff")+ Path.GetExtension(imageFile.FileName);
+            var imagePath = Path.Combine(_webhostingEnvironment.ContentRootPath,"images", imageName);
+            using (var fileStream = new FileStream(imagePath, FileMode.Create)){
+               await imageFile.CopyToAsync(fileStream);
+            }
+            return imageName;
+        }
+        [NonAction]
+        public void DeleteImage (string imageName){
+            var imagePath = Path.Combine(_webhostingEnvironment.ContentRootPath,"images", imageName);
+            if(System.IO.File.Exists(imagePath))
+                System.IO.File.Delete(imagePath);
         }
     }
 }

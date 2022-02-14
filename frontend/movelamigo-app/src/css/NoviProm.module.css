@@ -1,0 +1,23 @@
+.NoviProm{
+    background: rgb(172, 160, 138);
+    height: 100%;
+    width: 100%;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.NoviProm a {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.NoviProm  a{
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+.NoviProm p {
+    color:rgb(41, 39, 36);
+}
+

@@ -1,0 +1,42 @@
+.CategoriasForm{
+    background: rgb(218, 213, 203);
+    height: 100%;
+    width: 100%;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.CategoriasForm a {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.CategoriasForm a {
+    display: flex;
+    margin: 20px;
+    justify-content: center;
+}
+.CategoriasForm  a {
+    text-decoration: none;
+    color: rgb(27, 24, 24);
+}
+
+.CategoriasForm a:hover{
+    border-bottom: 3px solid orange;
+}
+.CategoriasForm section {
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+    padding-bottom: 7rem;
+  }
+.CategoriasForm nav {
+    background: white;
+    height: 100%;
+    width: 100%;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

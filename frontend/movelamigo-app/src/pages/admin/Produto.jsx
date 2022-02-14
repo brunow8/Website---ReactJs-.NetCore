@@ -4,6 +4,9 @@ import api from '../../api/product';
 import ProdutoList from './ProdutoList';
 import ProdutoForm from './ProdutoForm';
 import TittlePage from '../../components/TittlePage';
+import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
+import Menu from './Menu';
 
 export default function Produto() {
 
@@ -13,7 +16,6 @@ export default function Produto() {
   const [produtosad, setProdutosad] = useState([]);
   const [produtoad, setProdutoad] = useState({id: 0});
   
-
   const handleProdModal = () => setShowProdModal(!showProdModal);
 
   const handleConfirmModal = (id) => {
@@ -31,21 +33,36 @@ export default function Produto() {
       const response = await api.get('movel');
       return response.data;
   }
-
   useEffect(() => {
     const getProductsAdm = async () => {
       const AllProductsAdm = await catchAllProductsAdm();
         if( /*Se esta variável tiver valor dentro ele faz o passo seguinte*/AllProductsAdm) 
             setProdutosad(AllProductsAdm);
       };
+      
       getProductsAdm();
     }, []);
 
   const addProductsAdm = async (prod) =>{
-      const response = await api.post('movel', prod);
-      setProdutosad([...produtosad, response.data]);
+    let formData = new FormData();
+        formData.append('id', prod.id)
+        formData.append('name', prod.name)
+        formData.append('divisionName', prod.divisionName)
+        formData.append('description', prod.description)
+        formData.append('price', prod.price)
+        formData.append('quantity', prod.quantity)
+        formData.append('state', prod.state)
+        formData.append('deliveryPrice', prod.deliveryPrice)
+        formData.append('deliveryState', prod.deliveryState)
+        formData.append('details', prod.details)
+        formData.append('category', prod.category)
+        formData.append('imageName', prod.imageName)
+        formData.append('imageFile', prod.imageFile)
+      const response = await api.post('movel', formData);
+      setProdutosad([...formData, response.data]);
       handleProdModal();
   }
+
 
   const deleteProductsAdm = async (id) => {
     handleConfirmModal(0);
@@ -55,8 +72,8 @@ export default function Produto() {
         setProdutosad([...produtosadDeleted]);
       }
   };
-
-  function editProductsAdm (id) {
+  
+  function editProductsAdm (id, e) {
     const product = produtosad.filter((prod) => prod.id === id)
     setProdutoad(product[0]);
     handleProdModal();
@@ -84,17 +101,22 @@ export default function Produto() {
 
   return (
     <>
-        <TittlePage title = {'Produtos'}> 
+        <Menu/>
+        
+        <div className='container'>
+          <TittlePage title = {'Produtos'}> 
           <Button variant="outline-secondary" onClick={resetProductAdm}>
             <i className='fas fa-plus me-2'></i>Adicionar produto
           </Button>
         </TittlePage>
+        </div>
 
         <ProdutoList
             produtosad={produtosad}
             editProductsAdm = {editProductsAdm}
             handleConfirmModal = {handleConfirmModal}
         />
+
         {/*Modal de adicionar e editar produtos*/}
         <Modal show={showProdModal} onHide={handleProdModal}>
           <Modal.Body>
@@ -104,6 +126,7 @@ export default function Produto() {
               produtosad={produtosad}
               updateProductAdm = {updateProductAdm}
               cancelProductAdm = {cancelProductAdm}
+              
             />
           </Modal.Body>
         </Modal>
