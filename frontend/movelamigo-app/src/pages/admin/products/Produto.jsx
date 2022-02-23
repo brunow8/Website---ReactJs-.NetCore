@@ -1,12 +1,12 @@
 import {useState, React, useEffect} from 'react'
 import {Button, Modal} from 'react-bootstrap';
-import api from '../../api/product';
+import api from '../../../api/product';
 import ProdutoList from './ProdutoList';
 import ProdutoForm from './ProdutoForm';
-import TittlePage from '../../components/TittlePage';
+import TittlePage from '../../../components/TittlePage';
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import Menu from './Menu';
+import Menu from '../Menu';
 
 export default function Produto() {
 

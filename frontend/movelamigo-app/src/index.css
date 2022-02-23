@@ -41,6 +41,13 @@
       font-family: var(--body-font-family);    
       position: relative;
   }
+  body::-webkit-scrollbar{
+    display: none;
+  }
+  body::-webkit-scrollbar{
+    -ms-overflow-style: none;
+  scrollbar-width: none;
+  }
   
   /*---------------------------------------
     TYPOGRAPHY               
@@ -1229,6 +1236,121 @@ Pagina Not Found
   color: rgb(242, 165, 0);
   font-weight: 900;
   font-size: 40px;
+}
+.preto{
+  background: #000;
+  color: white;
+}
+.sitecolor{
+  text-decoration: none;
+  color: rgb(21, 146, 223);
+  font-size: 12px;
+}
+.textSite{
+  font-size: 12px;
+}
+.cima{
+  margin-top: -15px;
+}
+.cima2{
+  margin-top: -8px;
+}
+/*---------------------
+Admin Page
+---------------------------*/
+.adminPage{
+  background: #000000;
+  width: 100%;
+  height: 91vh;
+}
+.cartao{
+  width: 100%;
+  max-width: 350px;
+  align-items: center;
+  background: none;
+  margin-top: 15px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+}
+.cartao:hover{
+  border-bottom: 3px solid white;
+}
+.tituloPagAdmin{
+  font-size: 20px;
+  color: white;
+  font-weight: 400;
+  text-align: center;
+}
+.imagemAdmin{
+  width: 100%;
+  height: 100%;
+  max-width: 200px;
+}
+.imagemAClient{
+  width: 100%;
+  height: 100%;
+  max-width: 150px;
+}
+@media screen and (max-width: 770px){
+  .imagemAdmin{
+    width: 70px;
+    height: 100%;
+    margin-right: 18px;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    max-height: 90px;
+  }
+  .imagemAClient{
+    width: 70px;
+    height: 100%;
+    margin-right: 18px;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    max-height: 70px;
+  }
+  .cartao{
+    width: 100%;
+    max-width: 350px;
+    align-items: center;
+    background: none;
+    margin-top: 15px;
+    height: 200px;
+    display: block;
+  }
+  .tituloPagAdmin{
+    font-size: 20px;
+    color: white;
+    font-weight: 200;
+    text-align: center;
+  }
+  .ajudaPagAdmin{
+    display: flex;
+    justify-content: center;
+  }
+}
+.customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+.customers td, .customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.customers tr:nth-child(even){background-color: #f2f2f2;}
+
+.customers tr:hover {background-color: #ddd;}
+
+.customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #d3b925;
+  color: white;
 }
 @import url('../node_modules/@fortawesome/fontawesome-free/css/all.min.css')
 

@@ -27,6 +27,16 @@ export default function Footer() {
                 <p align="center" className="copyright-text me-4">Copyright © Móvel Amigo 2022</p>
             </div>
         </div>    
+        <div className='preto'>
+            <br></br>
+            <h5 className='text-muted ms-5 textSite'>Loja demobiliário</h5>
+            <p className='text-white ms-5 textSite cima2'>Inspiração para fazer de uma casa a nossa casa<br/>
+            Têm questões acerca de artigos ou encomendas?</p>
+            <p className='text-muted ms-5 textSite cima'>... mais</p>
+            <p className='sitecolor ms-5 cima'>www.movelamigo.com/pt/pt/</p>
+            <br></br>
+
+        </div>
     </footer>
   )
   ;

@@ -1,5 +1,5 @@
 import React from 'react'
-import ProdutoItem from './../admin/ProdutoItem';
+import ProdutoItem from './ProdutoItem';
 
 
 export default function ProdutoList(props) {
