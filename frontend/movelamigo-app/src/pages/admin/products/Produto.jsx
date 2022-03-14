@@ -1,20 +1,25 @@
 import {useState, React, useEffect} from 'react'
+import { useHistory } from 'react-router-dom'
+
 import {Button, Modal} from 'react-bootstrap';
 import api from '../../../api/product';
 import ProdutoList from './ProdutoList';
 import ProdutoForm from './ProdutoForm';
-import TittlePage from '../../../components/TittlePage';
-import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
 import Menu from '../Menu';
 
 export default function Produto() {
+
+  const history = useHistory();
+
 
   const [showProdModal, setShowProdModal] = useState (false);
   const [smShowConfirmModal, setSmShowConfirmModal] = useState (false);
   
   const [produtosad, setProdutosad] = useState([]);
   const [produtoad, setProdutoad] = useState({id: 0});
+  const [categoria, setCategoria] = useState(" ")
+  const [divisao, setDivisao] = useState(" ")
+
   
   const handleProdModal = () => setShowProdModal(!showProdModal);
 
@@ -39,7 +44,13 @@ export default function Produto() {
         if( /*Se esta variável tiver valor dentro ele faz o passo seguinte*/AllProductsAdm) 
             setProdutosad(AllProductsAdm);
       };
-      
+      setDivisao(window.location.pathname.split('/')[window.location.pathname.split('/').length - 2]);
+      if(divisao !== 'CasaBanho' || divisao !== 'Complementos'){
+        setCategoria(window.location.pathname.split('/')[window.location.pathname.split('/').length - 1]);
+      }else{
+        setCategoria(null)
+      }
+  
       getProductsAdm();
     }, []);
 
@@ -98,23 +109,33 @@ export default function Produto() {
       setProdutoad({id: 0})
       handleProdModal();
   }
-
+  const productsPage = () => { 
+    if(divisao === 'CasaBanho' || divisao === 'Complementos'){
+      history.push("/products")
+    }else {
+      let info = window.location.pathname.split('/')[window.location.pathname.split('/').length - 2];
+      history.push(`/${info}category`)
+    }
+  }
+  
   return (
     <>
         <Menu/>
         
         <div className='container'>
-          <TittlePage title = {'Produtos'}> 
-          <Button variant="outline-secondary" onClick={resetProductAdm}>
-            <i className='fas fa-plus me-2'></i>Adicionar produto
-          </Button>
-        </TittlePage>
+        <div className='d-flex justify-content-between mt-3 mb-4'>
+                <button className='btn btn-outline-dark rounded border' onClick={() => productsPage()}>Voltar</button>
+                <button className='btn btn-outline-secondary rounded border' onClick={() => resetProductAdm()}><i className='fas fa-plus me-2'></i>Adicionar produto</button>
+            </div>
+            <hr></hr>
         </div>
 
         <ProdutoList
             produtosad={produtosad}
             editProductsAdm = {editProductsAdm}
             handleConfirmModal = {handleConfirmModal}
+            categoria = {categoria}
+            divisao = {divisao}
         />
 
         {/*Modal de adicionar e editar produtos*/}

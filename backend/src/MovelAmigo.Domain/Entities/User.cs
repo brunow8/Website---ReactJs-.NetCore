@@ -15,7 +15,7 @@ namespace MovelAmigo.Domain.Entities
         public string LastName {get; set;}
         public string  Email {get; set;}
         public GenderEnum Gender {get; set;}
-        [JsonIgnore]public string Password {get; set;}
+        public string Password {get; set;}
         public StateLevel Level {get; set;}
         public StateUser State {get; set;}
         public DateTime? Birthday {get; set;}

@@ -46,6 +46,8 @@ export default function NavBarAdmin(props) {
 
                                 <Dropdown.Menu container="body" variant="dark" >
                                 <Dropdown.Item href="/admin">Página de administrador</Dropdown.Item>
+                                <Dropdown.Item href="/PasswordChange">Mudar password</Dropdown.Item>
+                                <Dropdown.Item href="/EmailChange">Mudar email</Dropdown.Item>
                                 <Dropdown.Divider />
                                 <Dropdown.Item onClick={logout}>Sair</Dropdown.Item>
                                 </Dropdown.Menu>

@@ -1,4 +1,5 @@
 import React from 'react'
+import Cart from '../../components/Cart/Cart';
 import Footer from '../../components/Footer';
 import NavBar from '../../components/NavBar/NavBar';
 import NoviProm from '../../components/Novi-Prom/NoviProm';
@@ -12,6 +13,7 @@ export default function Client() {
             <>
                 <Video/>
                 <NavBar/>
+                <Cart/>
                 <Categorias/>
                 <Ideias/>
                 <NoviProm/>

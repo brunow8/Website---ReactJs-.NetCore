@@ -29,7 +29,7 @@ export default function Livrarias() {
           <section className={classes.CategoriasForm}>
             <div className="container ">
                 <div className='row'>
-                    {produtosad.filter((prod) => prod.divisionName === 'Escritório' && prod.state === 'Active' && prod.category === 'Livrarias')
+                    {produtosad.filter((prod) => prod.divisionName === 'Escritorio' && prod.state === 'Active' && prod.category === 'Livrarias')
                                .map((prod) => (
                     <div key={prod.id} className="col-sm-6 col-md-4 mb-5 borderbaixa">
                         <div className='ProductsCard'>

@@ -14,6 +14,11 @@ namespace MovelAmigo.Data.Repositories
         public UserRepository(DataContext context){
             _context = context;
         }
+        public User Atualizar(User user){
+            _context.Users.Update(user);
+            _context.SaveChanges();
+            return user;
+        }
         public User Create(User user)
         {
             user.GuidId = System.Guid.NewGuid();
@@ -35,6 +40,11 @@ namespace MovelAmigo.Data.Repositories
             return _context.Users.FirstOrDefault(u => u.Email == email);
         }
 
+        public User GetByGuidId(Guid id)
+        {
+            return _context.Users.FirstOrDefault(u => u.GuidId == id);
+
+        }
         public User GetById(int id)
         {
             return _context.Users.FirstOrDefault(u => u.Id == id);

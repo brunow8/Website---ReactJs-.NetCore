@@ -108,11 +108,11 @@ export default function ProdutoForm(props) {
                         value={productad.divisionName} className='form-select'>
                             <option defaultValue="0">Não definido</option>
                             <option value="Cozinha">Cozinha</option>
-                            <option value="Sala de estar">Sala de estar</option>
-                            <option value="Sala de jantar">Sala de jantar</option>
-                            <option value="Casa de banho">Casa de banho</option>
+                            <option value="SalaEstar">Sala de estar</option>
+                            <option value="SalaJantar">Sala de jantar</option>
+                            <option value="CasaBanho">Casa de banho</option>
                             <option value="Quarto">Quarto</option>
-                            <option value="Escritório">Escritório</option>
+                            <option value="Escritorio">Escritório</option>
                             <option value="Complementos">Complementos</option>
                             <option value="Exterior">Exterior</option>
                         </select>
@@ -189,27 +189,27 @@ export default function ProdutoForm(props) {
                                 <option value="Mesas">Mesas</option>
                                 <option value="Cadeiras">Cadeiras</option>
                                 <option value="Louceiros">Louceiros</option>
-                                <option value="Móvel de cozinha">Móveis de cozinha</option>
-                                <option value="Auxiliar de cozinha">Auxiliares de cozinha</option>
+                                <option value="MovelCozinha">Móveis de cozinha</option>
+                                <option value="AuxiliarCozinha">Auxiliares de cozinha</option>
                             </select>
                         </div>
                     : ''}
-                    {productad.divisionName === 'Sala de estar' ?
+                    {productad.divisionName === 'SalaEstar' ?
                         <div className="col-md-6">
                             <label className='form-label'>Categoria do produto</label>
                             <select id="category" name='category' className='form-select'
                                 onChange={inputTextHandler} value={productad.category}>
                                 <option defaultValue="0">Não definido</option>
-                                <option value="Sofás">Sofás</option>
+                                <option value="Sofas">Sofás</option>
                                 <option value="Estantes">Estantes</option>
                                 <option value="Prateleiras">Prateleiras</option>
-                                <option value="Bases de multimédia">Bases de multimédia</option>
-                                <option value="Móvel de bar">Móveis de Bar</option>
-                                <option value="Mesinha de centro/apoio">Mesinhas de centro/apoio</option>
+                                <option value="BasesTV">Bases de multimédia</option>
+                                <option value="MovelBar">Móveis de Bar</option>
+                                <option value="MesinhaCentro">Mesinhas de centro/apoio</option>
                             </select>
                         </div>
                     : ''}
-                    {productad.divisionName === 'Sala de jantar' ?
+                    {productad.divisionName === 'SalaJantar' ?
                         <div className="col-md-6">
                             <label className='form-label'>Categoria do produto</label>
                             <select id="category" name='category' className='form-select'
@@ -231,24 +231,24 @@ export default function ProdutoForm(props) {
                                 onChange={inputTextHandler} value={productad.category}>
                                 <option defaultValue="0">Não definido</option>
                                 <option value="CamaCasal">Cama de casal</option>
-                                <option value="Cama Individual">Camas individuais</option>
-                                <option value="Camas com arrumacão">Camas com arrumação</option>
+                                <option value="CamaIndividual">Camas individuais</option>
+                                <option value="CamaArrumacao">Camas com arrumação</option>
                                 <option value="Bercos">Berços</option>
                                 <option value="Beliches">Beliches</option>
                                 <option value="Comodas">Cômodas</option>
                                 <option value="Roupeiros">Roupeiros</option>
-                                <option value="Mesinhas de cabeceira">Mesinha de cabeceira</option>
+                                <option value="MesinhaCabeceira">Mesinha de cabeceira</option>
                             </select>
                         </div>
                     : ''}
-                    {productad.divisionName === 'Escritório' ?
+                    {productad.divisionName === 'Escritorio' ?
                         <div className="col-md-6">
                             <label className='form-label'>Categoria do produto</label>
                             <select id="category" name='category' className='form-select'
                                 onChange={inputTextHandler} value={productad.category}>
                                 <option defaultValue="0">Não definido</option>
                                 <option value="Conjuntos">Conjuntos</option>
-                                <option value="Secretárias">Secretárias</option>
+                                <option value="Secretarias">Secretárias</option>
                                 <option value="Cadeiras">Cadeiras</option>
                                 <option value="Livrarias">Livrarias</option>
                             </select>

@@ -1,12 +1,14 @@
 import {motion} from 'framer-motion'
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import { Dropdown } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom'
 import api from '../../api/product';
-
+import CartContext from './../Cart/CartContext';
 
 
 export default function NavBarLogin(props) {
+    const { cartItems, showHideCart } = useContext(CartContext)
+
     const animateFrom = {opacity: 0, y: -40}
     const animateTo = {opacity: 1, y: 0}
 
@@ -40,6 +42,16 @@ export default function NavBarLogin(props) {
   return (
     <nav> 
                 <ul>
+                    <motion.li initial={animateFrom} animate={animateTo}
+                        onClick={() => props.isMobile && props.closeMobileMenu()}>
+                            <div className='cart_icon'>
+                               <i class="fa fa-shopping-cart fa-md" aria-hidden='true' style={{color: "#fff"}} onClick={showHideCart}></i>
+                            {cartItems.length > 0 && <div className='item_count'><span>{cartItems.length}</span></div>}
+                            {console.log(cartItems)}
+                            {console.log(showHideCart)}
+                            </div>
+                            
+                    </motion.li>
                     <li
                         onClick={() => props.isMobile && props.closeMobileMenu()}>
                             <Dropdown>
@@ -47,11 +59,12 @@ export default function NavBarLogin(props) {
                                 <i className="fa-solid fa-user me-1"></i> {userDetails.name}
                                 </Dropdown.Toggle>
 
-                                <Dropdown.Menu container="body" variant="dark" >
+                                <Dropdown.Menu container="body" variant="dark" className="mt-3 mb-3">
                                 <Dropdown.Item href="#/action-1">Dados da conta</Dropdown.Item>
                                 <Dropdown.Item href="#/action-2">Encomendas</Dropdown.Item>
                                 <Dropdown.Item href="#/action-3">Métodos de pagamento</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">Mudar password</Dropdown.Item>
+                                <Dropdown.Item href="/PasswordChange">Mudar password</Dropdown.Item>
+                                <Dropdown.Item href="/EmailChange">Mudar email</Dropdown.Item>
                                 <Dropdown.Item href="#/action-3">Produtos favoritos</Dropdown.Item>
                                 <Dropdown.Item href="#/action-3">Notificações</Dropdown.Item>
                                 <Dropdown.Item href="#/action-3">Apoio ao cliente</Dropdown.Item>

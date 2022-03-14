@@ -34,7 +34,7 @@ export default function CasaBanho() {
                                 <p className='justificado'>A casa de banho também conhecida como instalações sanitárias, quarto de banho ou WC (sigla de water closet), é um compartimento (ou cômodo) de uma habitação utilizado para os cuidados de 
                                 higiene pessoal.</p>
                             </div>
-                    {produtosad.filter((prod) => prod.divisionName === 'Casa de banho' && prod.state === 'Active')
+                    {produtosad.filter((prod) => prod.divisionName === 'CasaBanho' && prod.state === 'Active')
                                .map((prod) => (
                     <div key={prod.id} className="col-sm-6 col-md-4 mb-5 borderbaixa">
                         <div className='ProductsCard'>

@@ -29,7 +29,7 @@ export default function MovelCozinha() {
           <section className={classes.CategoriasForm}>
             <div className="container ">
                 <div className='row'>
-                    {produtosad.filter((prod) => prod.divisionName === 'Cozinha' && prod.state === 'Active' && prod.category === 'Móvel de cozinha')
+                    {produtosad.filter((prod) => prod.divisionName === 'Cozinha' && prod.state === 'Active' && prod.category === 'MovelCozinha')
                                .map((prod) => (
                     <div key={prod.id} className="col-sm-6 col-md-4 mb-5 borderbaixa">
                         <div className='ProductsCard'>

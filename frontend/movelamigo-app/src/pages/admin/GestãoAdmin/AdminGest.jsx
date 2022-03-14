@@ -1,14 +1,21 @@
 import Menu from './../Menu';
 import React, { useEffect, useState } from 'react'
 import api from './../../../api/product';
+import { useHistory } from 'react-router-dom'
 
 
 export default function AdminGest() {
+    const history = useHistory();
+    const register = () => {     
+        history.push('/SignUpAdmin')
+    }
+    const admin = () => {     
+        history.push('/admin')
+    }
     const [userDetails, setUserDetails] = useState([]);
 
   const catchUserDetails = async () => {
       const response = await api.get('user/register', {withCredentials: true});
-      console.log(response)
       return response.data;
   }
   useEffect(() => {
@@ -20,17 +27,19 @@ export default function AdminGest() {
       
       getUserDetails();
     }, []);
+
   return (
     <>
     <Menu/>
     <div className='container'>
         <div className='row'>
             <div className='d-flex justify-content-between mt-3 mb-4'>
-                <button className='btn btn-outline-dark rounded border'>Voltar</button>
-                <button className='btn btn-primary'> Adicionar administrador</button>
+                <button className='btn btn-outline-dark rounded border' onClick={() => admin()}>Voltar</button>
+                <button className='btn btn-primary' onClick={() => register()}> Adicionar administrador</button>
             </div>
             <hr></hr>
-            <table className='customers'>
+            <h3>Admnistradores</h3>
+            <table className='customers box-shadow'>
                 <tr>
                     <th>Nome</th>     
                     <th>Último Nome</th>                      

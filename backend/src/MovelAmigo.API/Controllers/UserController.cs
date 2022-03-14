@@ -112,7 +112,19 @@ namespace MovelAmigo.API.Controllers
                 message = "success"
             });
         }
-
+        [HttpPost(template: "loginDetails")]
+        public IActionResult LoginDetails(LoginDto dto){
+            var user = _repository.GetByEmail(dto.Email);
+            if (user == null){
+                return BadRequest(error: new { message = "O email ou a password fornecidos estão incorretos"});
+            }
+            if(!BCrypt.Net.BCrypt.Verify(text:dto.Password, hash:user.Password)){
+                return BadRequest (error: new {message = "A password ou o email fornecidos estão incorretos"});
+            }
+            return Ok(new{
+                message = "success"
+            });
+        }
         [HttpGet(template: "user")]
         public IActionResult ActualUser(){
             try{
@@ -130,6 +142,14 @@ namespace MovelAmigo.API.Controllers
         }
         [HttpGet(template: "ActualUserDetails")]
         public IActionResult DetailsActualUser (string email) {
+            var user = _repository.GetByEmail(email);
+              if(user == null) {
+                  return BadRequest(error: new {message = "O mail está mal."});
+              }  
+            return Ok(user);
+        }
+        [HttpGet(template: "BloqUserDetails/{email}")]
+        public IActionResult BloqUser (string email) {
             var user = _repository.GetByEmail(email);
               if(user == null) {
                   return BadRequest(error: new {message = "O mail está mal."});
@@ -156,8 +176,83 @@ namespace MovelAmigo.API.Controllers
                 message= "success"
             });
         }
+        [HttpPut(template: "bloquearClient")]
+        public IActionResult Block(User user) {
+              if(user == null) {
+                  return BadRequest(error: new {message = "Não tem dados"});
+              }
+            var us = _repository.GetByEmail(user.Email);
+            us.State = (StateUser)2;
+            _repository.Atualizar(us);
+            return Ok( new{
+                message= "success"
+            });
+        }
+        [HttpPut(template: "desbloquearClient")]
+        public IActionResult Unlock(User user) {
+              if(user == null) {
+                  return BadRequest(error: new {message = "Não tem dados"});
+              }
+            var us = _repository.GetByEmail(user.Email);
+            us.State = (StateUser)1;
+            _repository.Atualizar(us);
+            return Ok( new{
+                message= "success"
+            });
+        }
+        [HttpPut(template: "passwordChange")]
+        public IActionResult PasswordChange (User user){
+            if(user == null){
+                return BadRequest(error: new {message = "Não tem dados."});
+            }
+            var us = _repository.GetByEmail(user.Email);
+            if(us == null){
+                return BadRequest(error: new {message = "Não tem dados."});
+            }
+            var newPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
-        /*[HttpDelete]
+            us.Password = newPassword;
+            _repository.Atualizar(us);
+            return Ok( new{
+                message= "success"
+            });
+        }
+        [HttpPut(template: "emailChangee")]
+        public IActionResult EmailChangee (User user){
+            if(user == null){
+                return BadRequest(error: new {message = "Não tem dados."});
+            }
+            var us = _repository.GetByGuidId(user.GuidId);
+            if(us == null){
+                return BadRequest(error: new {message = "Não tem dados."});
+            }
+                us.Email = user.Email;
+                _repository.Atualizar(us);
+                    return Ok( new{
+                        message= "success"
+                    });
+        }
+         [HttpGet(template: "emailCheck/{email}")]
+        public IActionResult EmailCheck (string email) {
+            var user = _repository.GetByEmail(email);
+              if(user == null) {
+                 return Ok(new{
+                     message = "Pode ser alterado por este email"
+                 });
+              }else{
+                return BadRequest(error: new {message = "Email já existente!"});
+              } 
+             
+        }   
+        /*    if(us == null){
+                    return Ok( new{
+                    message= "success"
+                });
+            }else{
+                return BadRequest(error: new {message = "O email já existe."});
+            }
+        }
+        [HttpDelete]
         public async Task<ActionResult<User>> DeleteUser (int id){
             var user = await _context.Users.FindAsync(id);
             if(user == null){

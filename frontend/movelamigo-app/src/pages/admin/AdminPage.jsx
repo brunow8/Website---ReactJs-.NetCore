@@ -14,6 +14,9 @@ export default function AdminPage() {
     const admins = () => {     
         history.push('/GestAdmins')
     }
+    const clients = () => {     
+        history.push('/GestClients')
+    }
   return (
     <>
     <Menu/>
@@ -37,7 +40,7 @@ export default function AdminPage() {
 
                 <div className='col-12 d-flex justify-content-center mb-2'>
                         <div className='col-3 '></div>
-                        <div className='col-6 cartao '>
+                        <div className='col-6 cartao 'onClick={() => clients()}>
                             <div className='d-flex justify-content-center'>
                                 <h3 className='tituloPagAdmin mt-5'>Gestão dos Clientes</h3>
                             </div>

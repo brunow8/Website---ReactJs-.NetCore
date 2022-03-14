@@ -11,7 +11,6 @@ const NavLink = (props) => {
 
     const catchUserDetails = async () => {
         const response = await api.get('user/user', {withCredentials: true});
-        console.log(response)
         return response.data;
     }
     useEffect(() => {

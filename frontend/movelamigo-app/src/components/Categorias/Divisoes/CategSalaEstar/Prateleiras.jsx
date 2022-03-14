@@ -29,7 +29,7 @@ export default function Prateleiras() {
           <section className={classes.CategoriasForm}>
             <div className="container ">
                 <div className='row'>
-                    {produtosad.filter((prod) => prod.divisionName === 'Sala de estar' && prod.state === 'Active' && prod.category === 'Prateleiras')
+                    {produtosad.filter((prod) => prod.divisionName === 'SalaEstar' && prod.state === 'Active' && prod.category === 'Prateleiras')
                                .map((prod) => (
                     <div key={prod.id} className="col-sm-6 col-md-4 mb-5 borderbaixa">
                         <div className='ProductsCard'>

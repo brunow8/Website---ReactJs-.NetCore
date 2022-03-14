@@ -988,6 +988,24 @@ Accordion
     justify-content:center;
     align-items:center;
 }
+.containerSignUp1
+{
+    background:linear-gradient(135deg,#c47521,#454450);
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.containerSignUp2
+{
+    background:linear-gradient(50deg,#c47521,#454450);
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
 .app-wrapper-SignUp
 {
     background-color:white;
@@ -1155,7 +1173,12 @@ min-width:370px;
 }
 .DropdownToogle{
   background: none !important;
-  border-style: none;
+  background-color: rgb(202, 151, 54) !important;
+  border-radius: 10px !important;
+}
+.DropdownToogle:active{
+  border: none !important;
+  background-color: white;
 }
 /*----------------------------
 Menu Admin
@@ -1263,6 +1286,12 @@ Admin Page
   width: 100%;
   height: 91vh;
 }
+.clientPage{
+  background-color: white; /* For browsers that do not support gradients */
+  background-image: linear-gradient(to bottom right, white, grey);
+  width: 100%;
+  height: 91vh;
+}
 .cartao{
   width: 100%;
   max-width: 350px;
@@ -1292,7 +1321,69 @@ Admin Page
   height: 100%;
   max-width: 150px;
 }
-@media screen and (max-width: 770px){
+.ClientGest{
+  width: 100%;
+  height: 100%;
+  max-height: 50px;
+  display: flex;
+  justify-content: center;
+}
+.cabeçalhoClientGest{
+  background: #d3b925;
+  height: 100%;
+  max-height: 48px;
+}
+@media screen and (min-width : 770px){
+  .ClientGest{
+    display: none;
+  }
+  
+}
+@media screen and (max-width: 400px){
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    }
+    
+}
+@media screen and (min-width: 400px){
+  table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  }
+  table::-webkit-scrollbar {
+    width: 1.4vw;
+    height: 1.3vh;
+  }
+
+table::-webkit-scrollbar-track {
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+table::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgb(126, 126, 126);
+    background-image: -webkit-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.2) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.2) 75%,
+        transparent 75%,
+        transparent
+    );
+}
+
+  table::-webkit-scrollbar-thumb:hover {
+      background-color: #000000;
+  }
   .imagemAdmin{
     width: 70px;
     height: 100%;
@@ -1340,8 +1431,15 @@ Admin Page
   border: 1px solid #ddd;
   padding: 8px;
 }
-
-.customers tr:nth-child(even){background-color: #f2f2f2;}
+.textoClientPage{
+  font-size: 10px;
+  font-weight: 500;
+}
+.EmailClientPage{
+  font-size: 18px;
+  font-weight: 500;
+  color: black;
+}
 
 .customers tr:hover {background-color: #ddd;}
 
@@ -1350,8 +1448,137 @@ Admin Page
   padding-bottom: 12px;
   text-align: left;
   background-color: #d3b925;
-  color: white;
 }
+.corIcon{
+  background-color: red;
+  background: none;
+}
+.ProductstPage{
+  background-color: white; /* For browsers that do not support gradients */
+  background-image: linear-gradient(to bottom right, white, grey);
+  width: 100%;
+  height: auto;
+}
+.titulo-products{
+  font-weight: 600;
+  font-size: 2em;
+}
+.imageProdA{
+  cursor: pointer;
+}
+.owlImages{
+  height: 170px;
+}
+/* -----------------------------
+CART
+--------------------------------*/
+.item_count{
+  position: absolute;
+  display: grid;
+  place-items: center;
+  background-color: red;
+  z-index: 10;
+  border-radius: 50%;
+  font-size: 10px;
+  height: 14px;
+  width: 14px;
+  top: -50%;
+  right: -50%;
+}
+.cart_icon{
+  position: relative;
+  width: max-content;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.cart_innerWrapper{
+  height: max-content;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+.Cart_carTotal{
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.fa-times-circle{
+  color: gray;
+  transition: trasnsform 0.2s linear;
+}
+.fa-times-circle:hover{
+  transform: rotate(90deg);
+}
+.CartItem_item:nth-child(1){
+  border-top: 1px solid gray;
+}
+.CartItem_button{
+  margin-left: auto;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+.CartItem_button:focus,
+.CartItem_button:active{
+  outline: none;
+}
+.cart_wrapper {
+  position: fixed;
+  top: 41%;
+  right: 65%;
+  border-radius: 12px;
+  background: rgb(192, 165, 74) ;
+  border: 1px solid gray;
+  padding: 10px;
+  z-index: 10;
+  width: 100%;
+  max-width: 300px;
+  -ms-overflow-style: hidden; /* for Internet Explorer, Edge */
+    scrollbar-width: hidden; /* for Firefox */
+    overflow-y: hidden;
+}
+.cart_wrapper_detail {
+  position: absolute;
+  top: 10%;
+  right: 65%;
+  border-radius: 12px;
+  background: rgb(192, 165, 74) ;
+  border: 1px solid gray;
+  padding: 10px;
+  z-index: 10;
+  width: 100%;
+  max-width: 300px;
+  -ms-overflow-style: hidden; /* for Internet Explorer, Edge */
+    scrollbar-width: hidden; /* for Firefox */
+    overflow-y: hidden;
+}
+.cart_wrapper_detail::-webkit-scrollbar {
+    display: none;
+  }
+.CartItem_item {
+  background: rgb(192, 165, 74);
+  border-bottom: 1px solid gray;
+  padding: 10px 0;
+  margin-top: 10px;
+}
+
+.Cart_li {
+  list-style-type: none;
+  height: 100px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.Cart_li_img {
+  height: 100%;
+  width: 100px;
+  object-fit: cover;
+}
+
 @import url('../node_modules/@fortawesome/fontawesome-free/css/all.min.css')
 
 

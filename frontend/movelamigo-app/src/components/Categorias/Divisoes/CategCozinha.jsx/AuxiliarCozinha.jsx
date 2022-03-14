@@ -29,7 +29,7 @@ export default function AuxiliarCozinha() {
           <section className={classes.CategoriasForm}>
             <div className="container ">
                 <div className='row'>
-                    {produtosad.filter((prod) => prod.divisionName === 'Cozinha' && prod.state === 'Active' && prod.category === 'Auxiliar de cozinha')
+                    {produtosad.filter((prod) => prod.divisionName === 'Cozinha' && prod.state === 'Active' && prod.category === 'AuxiliarCozinha')
                                .map((prod) => (
                     <div key={prod.id} className="col-sm-6 col-md-4 mb-5 borderbaixa">
                         <div className='ProductsCard'>

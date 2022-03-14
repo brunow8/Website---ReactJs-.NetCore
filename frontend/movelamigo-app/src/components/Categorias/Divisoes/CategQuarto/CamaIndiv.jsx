@@ -29,7 +29,7 @@ export default function CamaIndiv() {
           <section className={classes.CategoriasForm}>
             <div className="container ">
                 <div className='row'>
-                    {produtosad.filter((prod) => prod.divisionName === 'Quarto' && prod.state === 'Active' && prod.category === 'Cama Individual')
+                    {produtosad.filter((prod) => prod.divisionName === 'Quarto' && prod.state === 'Active' && prod.category === 'CamaIndividual')
                                .map((prod) => (
                     <div key={prod.id} className="col-sm-6 col-md-4 mb-5 borderbaixa">
                         <div className='ProductsCard'>

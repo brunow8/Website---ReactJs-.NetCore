@@ -29,7 +29,7 @@ export default function MesaApoioCentro() {
           <section className={classes.CategoriasForm}>
             <div className="container ">
                 <div className='row'>
-                    {produtosad.filter((prod) => prod.divisionName === 'Sala de estar' && prod.state === 'Active' && prod.category === 'Mesinha de centro/apoio')
+                    {produtosad.filter((prod) => prod.divisionName === 'SalaEstar' && prod.state === 'Active' && prod.category === 'MesinhaCentro')
                                .map((prod) => (
                     <div key={prod.id} className="col-sm-6 col-md-4 mb-5 borderbaixa">
                         <div className='ProductsCard'>

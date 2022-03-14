@@ -29,7 +29,7 @@ export default function Aparadores() {
           <section className={classes.CategoriasForm}>
             <div className="container ">
                 <div className='row'>
-                    {produtosad.filter((prod) => prod.divisionName === 'Sala de jantar' && prod.state === 'Active' && prod.category === 'Aparadores')
+                    {produtosad.filter((prod) => prod.divisionName === 'SalaJantar' && prod.state === 'Active' && prod.category === 'Aparadores')
                                .map((prod) => (
                     <div key={prod.id} className="col-sm-6 col-md-4 mb-5 borderbaixa">
                         <div className='ProductsCard'>

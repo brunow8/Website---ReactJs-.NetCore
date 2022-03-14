@@ -1,10 +1,16 @@
 import React,{useState} from 'react'
-import Validation from './ValidationLogin';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { Modal, Button } from 'react-bootstrap';
+import api from './../../../api/product'
 
 
 
 const Login = ({submitForm}) => {
+
+    const [showBloqWarning, setShowBloqWarning] = useState (false);
+    const handleBloqWarning = () => setShowBloqWarning(!showBloqWarning);
+     
+            
     const history = useHistory();
     const home = () => {     
         history.push('/')
@@ -12,16 +18,14 @@ const Login = ({submitForm}) => {
     const PasswordRecover = () => {     
         history.push('/passwordrecover')
     }
-    const [errors, seterrors] = useState('');
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [redirect, setRedirect] = useState(false);
     const [check, setCheck] = useState(null);
     
     const submit = async (e) => {
         e.preventDefault();
-        const response = await fetch('https://localhost:5001/api/user/login',{
+        
+        const response2 = await fetch('https://localhost:5001/api/user/loginDetails',{
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             credentials: 'include',
@@ -30,15 +34,33 @@ const Login = ({submitForm}) => {
                 password : password
             })
         });
-        if(response.ok === true){
-            setRedirect(true);
-            setCheck(true);
-        }else{
+          if(response2.ok === true){
+            const response1 = await api.get(`user/BloqUserDetails/${email}`);
+            const values = response1.data;
+            if(values.state === 'Active'){
+              const response = await fetch('https://localhost:5001/api/user/login',{
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              credentials: 'include',
+              body: JSON.stringify({
+                  email : email,
+                  password : password
+              })
+          });
+                  if(response.ok === true){
+                    setCheck(true);
+                    submitForm(true);
+                  }else{
+                      setCheck(false);
+                  }
+          }if(values.state === 'Inactive'){
+            handleBloqWarning();
+          }
+        }
+        
+        if(response2.ok === false){
             setCheck(false);
         }
-    }
-    if(redirect){
-        return <Redirect to="/"/>
     }
   
     return (
@@ -77,6 +99,17 @@ const Login = ({submitForm}) => {
               </form>
               </div>
     </div>
+            <Modal show={showBloqWarning} onHide={handleBloqWarning} animation={false}>
+              <Modal.Header closeButton>
+                <Modal.Title>ERRO!!</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>A sua conta foi bloqueada devido a actividades suspeitas!</Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleBloqWarning}>
+                  Close
+                </Button>
+              </Modal.Footer>
+            </Modal>
     </>
     ) 
 }  

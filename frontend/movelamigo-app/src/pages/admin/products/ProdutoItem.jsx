@@ -2,14 +2,17 @@ import React from 'react'
 
   function divisionNameLabel (param) {
     switch(param) {
-      case 'Cozinha':
-      case 'Sala de estar':
-      case 'Sala de jantar':
+      case 'SalaEstar':
+        return 'Sala de estar'
+      case 'SalaJantar':
+        return 'Sala de jantar'
+      case 'Escritorio':
+        return 'Escritório'
       case 'Casa de banho':
       case 'Quarto':
       case 'Complementos':
+      case 'Cozinha':
       case 'Exterior':
-      case 'Escritório':
           return param;
       default:
         return 'Não definido';

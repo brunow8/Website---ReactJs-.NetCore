@@ -1,19 +1,24 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import api from './../../api/product'
 import Footer from '../../components/Footer';
 import AccordionDetail from '../../components/Accordion/AccordionDetail';
 import Rate from './../../components/Stars/Rate';
 import AccordionDescription from './../../components/Accordion/AccordionDescription';
 import OwlCarousel from 'react-owl-carousel'
-import './../../../node_modules/owl.carousel/dist/assets/owl.carousel.min.css'
-import './../../../node_modules/owl.carousel/dist/assets/owl.theme.default.min.css'
+import './../../../node_modules/owl.carousel/dist/assets/owl.carousel.css'
+import './../../../node_modules/owl.carousel/dist/assets/owl.theme.default.css'
 import NavBar from './../../components/NavBar/NavBar';
+import { useHistory } from 'react-router-dom';
+import CartContext from './../../components/Cart/CartContext'
+import CartProductDetail from './../../components/Cart/CartProductDetail';
+
+
 
 export default function ProductDetail() {
 
   const [produtoSelected, setProdutoSelected] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
-
+  const {addToCart } = useContext(CartContext);
 
   const catchAllProductsAdm = async () => {
     let id = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
@@ -41,9 +46,38 @@ const catchAll = async () => {
       
       getProductsAdm();
     }, []);
+
+    const options = {
+      margin: 30,
+      items: Object.keys(allProducts).length,
+      responsiveClass: true,
+      nav: true,
+      autoplay: false,
+      navText: ["Anterior", "Seguinte"],
+      smartSpeed: 1000,
+      responsive: {
+          0: {
+              items: 1,
+          },
+          400: {
+              items: 1,
+          },
+          600: {
+              items: 2,
+          },
+          700: {
+              items: 3,
+          },
+          1000: {
+              items: 5,
+          }
+      },
+    };
+    
     return (
         <>
         <NavBar/>
+        <CartProductDetail/>
         <section className="py-2">
             <div className="container px-4 px-lg-5 my-5">
                 <div className="row gx-4 gx-lg-5 align-items-center mb-5">
@@ -98,7 +132,7 @@ const catchAll = async () => {
                           </div>
                           
                           <div className='col-6'>
-                              <button className="btn btn-outline-dark flex-shrink-0" type="button">
+                              <button className="btn btn-outline-dark flex-shrink-0" type="button" onClick={() => addToCart(produtoSelected)}>
                               <i className="fa fa-cart-arrow-down me-2"></i>
                                   Adicionar ao carrinho
                               </button>
@@ -121,34 +155,14 @@ const catchAll = async () => {
             if(Object.keys(allProducts).length > 0){
               return (
           <OwlCarousel
-          className="owl-carousel owl-theme mb-5 ps-1 pe-1"
-          items={Object.keys(allProducts).length}
-          autoPlay={true}
-          autoplayTimeout={1000}
-          nav={true}
-          dots={false}
-          margin={10}
-          responsive={
-            0==={
-              items:1
-            },
-            400==={
-              items:3
-            },
-            600==={
-              items:4
-            },
-            1000==={
-              items:5
-            }
-          }   
-          
+          className="owl-theme slider-items mb-5 ps-1 pe-1"
+          {...options}
           >
             {(() => {if(produtoSelected.divisionName === 'Cozinha' && produtoSelected.state === 'Active' && produtoSelected.category === 'Conjuntos'){
                     return(
                       allProducts.filter((prod) => prod.divisionName === 'Cozinha' && prod.state === 'Active' && prod.category ==='Conjuntos' && prod.id !== produtoSelected.id)
                                .map((prod) => (
-                              <div key={prod.id} style={{background: "white"}}>
+                              <div key={prod.id} style={{background: "white"}} className="item">
                                 <div className='item border border-light'>
                                   <img style={{height: "170px"}} className='border border-light' src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                   <p className='preco'>{prod.price}€</p>
@@ -159,7 +173,7 @@ const catchAll = async () => {
                       return(
                         allProducts.filter((prod) => prod.divisionName === 'Cozinha' && prod.state === 'Active' && prod.category ==='Cadeiras' && prod.id !== produtoSelected.id)
                                  .map((prod) => (
-                                <div key={prod.id} style={{background: "white"}} >
+                                <div key={prod.id} style={{background: "white"}} className="item">
                                   <div className='item border border-light'>
                                     <img style={{height: "170px", width: "auto"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                     <p className='preco'>{prod.price}€</p>
@@ -170,7 +184,7 @@ const catchAll = async () => {
                         return(
                           allProducts.filter((prod) => prod.divisionName === 'Cozinha' && prod.state === 'Active' && prod.category ==='Louceiros' && prod.id !== produtoSelected.id)
                                    .map((prod) => (
-                                  <div key={prod.id} style={{background: "white"}} >
+                                  <div key={prod.id} style={{background: "white"}} className="item">
                                     <div className='item border border-light'>
                                       <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                       <p className='preco'>{prod.price}€</p>
@@ -181,7 +195,7 @@ const catchAll = async () => {
                           return(
                             allProducts.filter((prod) => prod.divisionName === 'Cozinha' && prod.state === 'Active' && prod.category ==='Mesas' && prod.id !== produtoSelected.id)
                                      .map((prod) => (
-                                    <div key={prod.id} style={{background: "white"}} >
+                                    <div key={prod.id} style={{background: "white"}} className="item">
                                       <div className='item border border-light'>
                                         <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                         <p className='preco'>{prod.price}€</p>
@@ -192,7 +206,7 @@ const catchAll = async () => {
                             return(
                               allProducts.filter((prod) => prod.divisionName === 'Cozinha' && prod.state === 'Active' && prod.category ==='Móvel de cozinha' && prod.id !== produtoSelected.id)
                                        .map((prod) => (
-                                      <div key={prod.id} style={{background: "white"}} >
+                                      <div key={prod.id} style={{background: "white"}} className="item">
                                         <div className='item border border-light'>
                                           <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                           <p className='preco'>{prod.price}€</p>
@@ -203,7 +217,7 @@ const catchAll = async () => {
                               return(
                                 allProducts.filter((prod) => prod.divisionName === 'Cozinha' && prod.state === 'Active' && prod.category ==='Auxiliar de cozinha' && prod.id !== produtoSelected.id)
                                          .map((prod) => (
-                                        <div key={prod.id} style={{background: "white"}} >
+                                        <div key={prod.id} style={{background: "white"}} className="item">
                                           <div className='item border border-light'>
                                             <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                             <p className='preco'>{prod.price}€</p>
@@ -214,7 +228,7 @@ const catchAll = async () => {
                                 return(
                                   allProducts.filter((prod) => prod.divisionName === 'Escritório' && prod.state === 'Active' && prod.category ==='Cadeiras' && prod.id !== produtoSelected.id)
                                            .map((prod) => (
-                                          <div key={prod.id} style={{background: "white"}} >
+                                          <div key={prod.id} style={{background: "white"}} className="item">
                                             <div className='item border border-light'>
                                               <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                               <p className='preco'>{prod.price}€</p>
@@ -225,7 +239,7 @@ const catchAll = async () => {
                                   return(
                                     allProducts.filter((prod) => prod.divisionName === 'Escritório' && prod.state === 'Active' && prod.category ==='Conjuntos' && prod.id !== produtoSelected.id)
                                              .map((prod) => (
-                                            <div key={prod.id} style={{background: "white"}} >
+                                            <div key={prod.id} style={{background: "white"}} className="item">
                                               <div className='item border border-light'>
                                                 <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                 <p className='preco'>{prod.price}€</p>
@@ -236,7 +250,7 @@ const catchAll = async () => {
                                     return(
                                       allProducts.filter((prod) => prod.divisionName === 'Escritório' && prod.state === 'Active' && prod.category ==='Cadeiras' && prod.id !== produtoSelected.id)
                                                .map((prod) => (
-                                              <div key={prod.id} style={{background: "white"}} >
+                                              <div key={prod.id} style={{background: "white"}} className="item">
                                                 <div className='item border border-light'>
                                                   <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                   <p className='preco'>{prod.price}€</p>
@@ -247,7 +261,7 @@ const catchAll = async () => {
                                       return(
                                         allProducts.filter((prod) => prod.divisionName === 'Escritório' && prod.state === 'Active' && prod.category ==='Livrarias' && prod.id !== produtoSelected.id)
                                                  .map((prod) => (
-                                                <div key={prod.id} style={{background: "white"}} >
+                                                <div key={prod.id} style={{background: "white"}} className="item">
                                                   <div className='item border border-light'>
                                                     <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                     <p className='preco'>{prod.price}€</p>
@@ -258,7 +272,7 @@ const catchAll = async () => {
                                         return(
                                           allProducts.filter((prod) => prod.divisionName === 'Exterior' && prod.state === 'Active' && prod.category ==='Cadeiras' && prod.id !== produtoSelected.id)
                                                    .map((prod) => (
-                                                  <div key={prod.id} style={{background: "white"}} >
+                                                  <div key={prod.id} style={{background: "white"}} className="item">
                                                     <div className='item border border-light'>
                                                       <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                       <p className='preco'>{prod.price}€</p>
@@ -269,7 +283,7 @@ const catchAll = async () => {
                                           return(
                                             allProducts.filter((prod) => prod.divisionName === 'Exterior' && prod.state === 'Active' && prod.category ==='Bancos' && prod.id !== produtoSelected.id)
                                                      .map((prod) => (
-                                                    <div key={prod.id} style={{background: "white"}} >
+                                                    <div key={prod.id} style={{background: "white"}} className="item">
                                                       <div className='item border border-light'>
                                                         <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                         <p className='preco'>{prod.price}€</p>
@@ -280,7 +294,7 @@ const catchAll = async () => {
                                             return(
                                               allProducts.filter((prod) => prod.divisionName === 'Exterior' && prod.state === 'Active' && prod.category ==='Conjuntos' && prod.id !== produtoSelected.id)
                                                        .map((prod) => (
-                                                      <div key={prod.id} style={{background: "white"}} >
+                                                      <div key={prod.id} style={{background: "white"}} className="item">
                                                         <div className='item border border-light'>
                                                           <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                           <p className='preco'>{prod.price}€</p>
@@ -291,7 +305,7 @@ const catchAll = async () => {
                                               return(
                                                 allProducts.filter((prod) => prod.divisionName === 'Exterior' && prod.state === 'Active' && prod.category ==='Mesas' && prod.id !== produtoSelected.id)
                                                          .map((prod) => (
-                                                        <div key={prod.id} style={{background: "white"}} >
+                                                        <div key={prod.id} style={{background: "white"}} className="item">
                                                           <div className='item border border-light'>
                                                             <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                             <p className='preco'>{prod.price}€</p>
@@ -302,7 +316,7 @@ const catchAll = async () => {
                                                 return(
                                                   allProducts.filter((prod) => prod.divisionName === 'Quarto' && prod.state === 'Active' && prod.category ==='Beliches' && prod.id !== produtoSelected.id)
                                                            .map((prod) => (
-                                                          <div key={prod.id} style={{background: "white"}} >
+                                                          <div key={prod.id} style={{background: "white"}} className="item">
                                                             <div className='item border border-light'>
                                                               <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                               <p className='preco'>{prod.price}€</p>
@@ -313,7 +327,7 @@ const catchAll = async () => {
                                                   return(
                                                     allProducts.filter((prod) => prod.divisionName === 'Quarto' && prod.state === 'Active' && prod.category ==='Bercos' && prod.id !== produtoSelected.id)
                                                              .map((prod) => (
-                                                            <div key={prod.id} style={{background: "white"}} >
+                                                            <div key={prod.id} style={{background: "white"}} className="item">
                                                               <div className='item border border-light'>
                                                                 <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                 <p className='preco'>{prod.price}€</p>
@@ -324,7 +338,7 @@ const catchAll = async () => {
                                                     return(
                                                       allProducts.filter((prod) => prod.divisionName === 'Quarto' && prod.state === 'Active' && prod.category ==='Cama com arrumação' && prod.id !== produtoSelected.id)
                                                                .map((prod) => (
-                                                              <div key={prod.id} style={{background: "white"}} >
+                                                              <div key={prod.id} style={{background: "white"}} className="item">
                                                                 <div className='item border border-light'>
                                                                   <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                   <p className='preco'>{prod.price}€</p>
@@ -335,7 +349,7 @@ const catchAll = async () => {
                                                       return(
                                                         allProducts.filter((prod) => prod.divisionName === 'Quarto' && prod.state === 'Active' && prod.category ==='CamaCasal' && prod.id !== produtoSelected.id)
                                                                  .map((prod) => (
-                                                                <div key={prod.id} style={{background: "white"}} >
+                                                                <div key={prod.id} style={{background: "white"}} className="item">
                                                                   <div className='item border border-light'>
                                                                     <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                     <p className='preco'>{prod.price}€</p>
@@ -346,7 +360,7 @@ const catchAll = async () => {
                                                         return(
                                                           allProducts.filter((prod) => prod.divisionName === 'Quarto' && prod.state === 'Active' && prod.category ==='Cama Individual' && prod.id !== produtoSelected.id)
                                                                    .map((prod) => (
-                                                                  <div key={prod.id} style={{background: "white"}} >
+                                                                  <div key={prod.id} style={{background: "white"}} className="item">
                                                                     <div className='item border border-light'>
                                                                       <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                       <p className='preco'>{prod.price}€</p>
@@ -357,7 +371,7 @@ const catchAll = async () => {
                                                           return(
                                                             allProducts.filter((prod) => prod.divisionName === 'Quarto' && prod.state === 'Active' && prod.category ==='Comodas' && prod.id !== produtoSelected.id)
                                                                      .map((prod) => (
-                                                                    <div key={prod.id} style={{background: "white"}} >
+                                                                    <div key={prod.id} style={{background: "white"}} className="item">
                                                                       <div className='item border border-light'>
                                                                         <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                         <p className='preco'>{prod.price}€</p>
@@ -368,7 +382,7 @@ const catchAll = async () => {
                                                             return(
                                                               allProducts.filter((prod) => prod.divisionName === 'Quarto' && prod.state === 'Active' && prod.category ==='CamaCasal' && prod.id !== produtoSelected.id)
                                                                        .map((prod) => (
-                                                                      <div key={prod.id} style={{background: "white"}} >
+                                                                      <div key={prod.id} style={{background: "white"}} className="item">
                                                                         <div className='item border border-light'>
                                                                           <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                           <p className='preco'>{prod.price}€</p>
@@ -379,7 +393,7 @@ const catchAll = async () => {
                                                               return(
                                                                 allProducts.filter((prod) => prod.divisionName === 'Quarto' && prod.state === 'Active' && prod.category ==='Mesinhas de cabeceira' && prod.id !== produtoSelected.id)
                                                                          .map((prod) => (
-                                                                        <div key={prod.id} style={{background: "white"}} >
+                                                                        <div key={prod.id} style={{background: "white"}} className="item">
                                                                           <div className='item border border-light'>
                                                                             <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                             <p className='preco'>{prod.price}€</p>
@@ -390,7 +404,7 @@ const catchAll = async () => {
                                                                 return(
                                                                   allProducts.filter((prod) => prod.divisionName === 'Sala de estar' && prod.state === 'Active' && prod.category ==='Bases de multimédia' && prod.id !== produtoSelected.id)
                                                                            .map((prod) => (
-                                                                          <div key={prod.id} style={{background: "white"}} >
+                                                                          <div key={prod.id} style={{background: "white"}} className="item">
                                                                             <div className='item border border-light'>
                                                                               <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                               <p className='preco'>{prod.price}€</p>
@@ -401,7 +415,7 @@ const catchAll = async () => {
                                                                   return(
                                                                     allProducts.filter((prod) => prod.divisionName === 'Sala de estar' && prod.state === 'Active' && prod.category ==='Estantes' && prod.id !== produtoSelected.id)
                                                                              .map((prod) => (
-                                                                            <div key={prod.id} style={{background: "white"}} >
+                                                                            <div key={prod.id} style={{background: "white"}} className="item">
                                                                               <div className='item border border-light'>
                                                                                 <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                                 <p className='preco'>{prod.price}€</p>
@@ -412,7 +426,7 @@ const catchAll = async () => {
                                                                     return(
                                                                       allProducts.filter((prod) => prod.divisionName === 'Sala de estar' && prod.state === 'Active' && prod.category ==='Prateleiras' && prod.id !== produtoSelected.id)
                                                                                .map((prod) => (
-                                                                              <div key={prod.id} style={{background: "white"}} >
+                                                                              <div key={prod.id} style={{background: "white"}} className="item">
                                                                                 <div className='item border border-light'>
                                                                                   <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                                   <p className='preco'>{prod.price}€</p>
@@ -423,7 +437,7 @@ const catchAll = async () => {
                                                                       return(
                                                                         allProducts.filter((prod) => prod.divisionName === 'Sala de estar' && prod.state === 'Active' && prod.category ==='Sofás' && prod.id !== produtoSelected.id)
                                                                                  .map((prod) => (
-                                                                                <div key={prod.id} style={{background: "white"}} >
+                                                                                <div key={prod.id} style={{background: "white"}} className="item">
                                                                                   <div className='item border border-light'>
                                                                                     <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                                     <p className='preco'>{prod.price}€</p>
@@ -434,7 +448,7 @@ const catchAll = async () => {
                                                                         return(
                                                                           allProducts.filter((prod) => prod.divisionName === 'Sala de estar' && prod.state === 'Active' && prod.category ==='Móvel de bar' && prod.id !== produtoSelected.id)
                                                                                    .map((prod) => (
-                                                                                  <div key={prod.id} style={{background: "white"}} >
+                                                                                  <div key={prod.id} style={{background: "white"}} className="item">
                                                                                     <div className='item border border-light'>
                                                                                       <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                                       <p className='preco'>{prod.price}€</p>
@@ -445,7 +459,7 @@ const catchAll = async () => {
                                                                           return(
                                                                             allProducts.filter((prod) => prod.divisionName === 'Sala de estar' && prod.state === 'Active' && prod.category ==='Mesinha de centro/apoio' && prod.id !== produtoSelected.id)
                                                                                      .map((prod) => (
-                                                                                    <div key={prod.id} style={{background: "white"}} >
+                                                                                    <div key={prod.id} style={{background: "white"}} className="item">
                                                                                       <div className='item border border-light'>
                                                                                         <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                                         <p className='preco'>{prod.price}€</p>
@@ -456,7 +470,7 @@ const catchAll = async () => {
                                                                             return(
                                                                               allProducts.filter((prod) => prod.divisionName === 'Sala de jantar' && prod.state === 'Active' && prod.category ==='Aparadores' && prod.id !== produtoSelected.id)
                                                                                        .map((prod) => (
-                                                                                      <div key={prod.id} style={{background: "white"}} >
+                                                                                      <div key={prod.id} style={{background: "white"}} className="item">
                                                                                         <div className='item border border-light'>
                                                                                           <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                                           <p className='preco'>{prod.price}€</p>
@@ -467,7 +481,7 @@ const catchAll = async () => {
                                                                               return(
                                                                                 allProducts.filter((prod) => prod.divisionName === 'Sala de jantar' && prod.state === 'Active' && prod.category ==='Mesas' && prod.id !== produtoSelected.id)
                                                                                          .map((prod) => (
-                                                                                        <div key={prod.id} style={{background: "white"}} >
+                                                                                        <div key={prod.id} style={{background: "white"}} className="item">
                                                                                           <div className='item border border-light'>
                                                                                             <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                                             <p className='preco'>{prod.price}€</p>
@@ -478,7 +492,7 @@ const catchAll = async () => {
                                                                                 return(
                                                                                   allProducts.filter((prod) => prod.divisionName === 'Sala de jantar' && prod.state === 'Active' && prod.category ==='Vitrines' && prod.id !== produtoSelected.id)
                                                                                            .map((prod) => (
-                                                                                          <div key={prod.id} style={{background: "white"}} >
+                                                                                          <div key={prod.id} style={{background: "white"}} className="item">
                                                                                             <div className='item border border-light'>
                                                                                               <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                                               <p className='preco'>{prod.price}€</p>
@@ -489,7 +503,7 @@ const catchAll = async () => {
                                                                                   return(
                                                                                     allProducts.filter((prod) => prod.divisionName === 'Sala de jantar' && prod.state === 'Active' && prod.category ==='Estantes' && prod.id !== produtoSelected.id)
                                                                                              .map((prod) => (
-                                                                                            <div key={prod.id} style={{background: "white"}} >
+                                                                                            <div key={prod.id} style={{background: "white"}} className="item">
                                                                                               <div className='item border border-light'>
                                                                                                 <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                                                 <p className='preco'>{prod.price}€</p>
@@ -500,7 +514,7 @@ const catchAll = async () => {
                                                                                     return(
                                                                                       allProducts.filter((prod) => prod.divisionName === 'Sala de jantar' && prod.state === 'Active' && prod.category ==='Conjuntos' && prod.id !== produtoSelected.id)
                                                                                                .map((prod) => (
-                                                                                              <div key={prod.id} style={{background: "white"}} >
+                                                                                              <div key={prod.id} style={{background: "white"}} className="item" >
                                                                                                 <div className='item border border-light'>
                                                                                                   <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                                                   <p className='preco'>{prod.price}€</p>
@@ -511,7 +525,7 @@ const catchAll = async () => {
                                                                                       return(
                                                                                         allProducts.filter((prod) => prod.divisionName === 'Sala de jantar' && prod.state === 'Active' && prod.category ==='Cadeiras' && prod.id !== produtoSelected.id)
                                                                                                  .map((prod) => (
-                                                                                                <div key={prod.id} style={{background: "white"}} >
+                                                                                                <div key={prod.id} style={{background: "white"}} className="item">
                                                                                                   <div className='item border border-light'>
                                                                                                     <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                                                     <p className='preco'>{prod.price}€</p>
@@ -531,45 +545,25 @@ const catchAll = async () => {
             if(Object.keys(allProducts).length > 0){
               return (
           <OwlCarousel
-          className="owl-carousel owl-theme mb-5 ps-1 pe-1"
-          items={Object.keys(allProducts).length}
-          autoPlay={true}
-          autoplayTimeout={1000}
-          nav={true}
-          dots={false}
-          margin={10}
-          responsive={
-            0==={
-              items:1
-            },
-            400==={
-              items:3
-            },
-            600==={
-              items:4
-            },
-            1000==={
-              items:5
-            }
-          }   
-          
+          className="owl-theme slider-items mb-5 ps-1 pe-1"
+          {...options}
           >
             {(() => {if(produtoSelected.divisionName === 'Cozinha' && produtoSelected.state === 'Active'){
                       return(
                         allProducts.filter((prod) => prod.divisionName === 'Cozinha' && prod.state === 'Active' && prod.id !== produtoSelected.id && prod.category !== 'Conjuntos')
                                  .map((prod) => (
-                                <div key={prod.id} style={{background: "white"}} >
-                                  <div className='item border border-light'>
-                                    <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
+                                <div key={prod.id} style={{background: "white"}} className="item">
+                                  <div className='border border-light'>
+                                    <img style={{height: "170px"}} src={"https://localhost:5001/images/"+ prod.imageName} alt="das" />
                                     <p className='preco'>{prod.price}€</p>
-                                    </div>
+                                  </div>
                                 </div>
                       )
-                      ))}else if(produtoSelected.divisionName === 'Escritório' && produtoSelected.state === 'Active' ){
+                      ))}else if(produtoSelected.divisionName === 'Escritorio' && produtoSelected.state === 'Active' ){
                                 return(
-                                  allProducts.filter((prod) => prod.divisionName === 'Escritório' && prod.state === 'Active' && prod.id !== produtoSelected.id && prod.category !== 'Conjuntos')
+                                  allProducts.filter((prod) => prod.divisionName === 'Escritorio' && prod.state === 'Active' && prod.id !== produtoSelected.id && prod.category !== 'Conjuntos')
                                            .map((prod) => (
-                                          <div key={prod.id} style={{background: "white"}} >
+                                          <div key={prod.id} style={{background: "white"}} className="item">
                                             <div className='item border border-light'>
                                               <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                               <p className='preco'>{prod.price}€</p>
@@ -580,7 +574,7 @@ const catchAll = async () => {
                                         return(
                                           allProducts.filter((prod) => prod.divisionName === 'Exterior' && prod.state === 'Active'  && prod.id !== produtoSelected.id && prod.category !== 'Conjuntos')
                                                    .map((prod) => (
-                                                  <div key={prod.id} style={{background: "white"}} >
+                                                  <div key={prod.id} style={{background: "white"}} className="item">
                                                     <div className='item border border-light'>
                                                       <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                       <p className='preco'>{prod.price}€</p>
@@ -591,42 +585,42 @@ const catchAll = async () => {
                                                 return(
                                                   allProducts.filter((prod) => prod.divisionName === 'Quarto' && prod.state === 'Active' && prod.id !== produtoSelected.id)
                                                            .map((prod) => (
-                                                          <div key={prod.id} style={{background: "white"}} >
+                                                          <div key={prod.id} style={{background: "white"}} className="item">
                                                             <div className='item border border-light'>
                                                               <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                               <p className='preco'>{prod.price}€</p>
                                                               </div>
                                                           </div>
                                                 )
-                                                ))}else if(produtoSelected.divisionName === 'Sala de estar' && produtoSelected.state === 'Active'){
+                                                ))}else if(produtoSelected.divisionName === 'SalaEstar' && produtoSelected.state === 'Active'){
                                                                 return(
-                                                                  allProducts.filter((prod) => prod.divisionName === 'Sala de estar' && prod.state === 'Active' && prod.id !== produtoSelected.id)
+                                                                  allProducts.filter((prod) => prod.divisionName === 'SalaEstar' && prod.state === 'Active' && prod.id !== produtoSelected.id)
                                                                            .map((prod) => (
-                                                                          <div key={prod.id} style={{background: "white"}} >
+                                                                          <div key={prod.id} style={{background: "white"}} className="item">
                                                                             <div className='item border border-light'>
                                                                               <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                               <p className='preco'>{prod.price}€</p>
                                                                               </div>
                                                                           </div>
                                                                 )
-                                                                ))}else if(produtoSelected.divisionName === 'Sala de jantar' && produtoSelected.state === 'Active'){
+                                                                ))}else if(produtoSelected.divisionName === 'SalaJantar' && produtoSelected.state === 'Active'){
                                                                             return(
-                                                                              allProducts.filter((prod) => prod.divisionName === 'Sala de jantar' && prod.state === 'Active' && prod.id !== produtoSelected.id && prod.category !== "Conjuntos")
+                                                                              allProducts.filter((prod) => prod.divisionName === 'SalaJantar' && prod.state === 'Active' && prod.id !== produtoSelected.id && prod.category !== "Conjuntos")
                                                                                        .map((prod) => (
-                                                                                      <div key={prod.id} style={{background: "white"}} >
+                                                                                      <div key={prod.id} style={{background: "white"}} className="item">
                                                                                         <div className='item border border-light'>
                                                                                           <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                                           <p className='preco'>{prod.price}€</p>
                                                                                           </div>
                                                                                       </div>
                                                                             )
-                                                                            ))}else if(produtoSelected.divisionName === 'Casa de banho' && produtoSelected.state === 'Active'){
+                                                                            ))}else if(produtoSelected.divisionName === 'CasaBanho' && produtoSelected.state === 'Active'){
                                                                               return(
-                                                                                allProducts.filter((prod) => prod.divisionName === 'Casade banho' && prod.state === 'Active' && prod.id !== produtoSelected.id)
+                                                                                allProducts.filter((prod) => prod.divisionName === 'CasaBanho' && prod.state === 'Active' && prod.id !== produtoSelected.id)
                                                                                          .map((prod) => (
-                                                                                        <div key={prod.id} style={{background: "white"}} >
+                                                                                        <div key={prod.id} style={{background: "white"}} className="item">
                                                                                           <div className='item border border-light'>
-                                                                                            <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
+                                                                                            <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das" />
                                                                                             <p className='preco'>{prod.price}€</p>
                                                                                             </div>
                                                                                         </div>
@@ -635,7 +629,7 @@ const catchAll = async () => {
                                                                                 return(
                                                                                   allProducts.filter((prod) => prod.divisionName === 'Complementos' && prod.state === 'Active' && prod.id !== produtoSelected.id)
                                                                                            .map((prod) => (
-                                                                                          <div key={prod.id} style={{background: "white"}} >
+                                                                                          <div key={prod.id} style={{background: "white"}} className="item">
                                                                                             <div className='item border border-light'>
                                                                                               <img style={{height: "170px"}}src={"https://localhost:5001/images/"+ prod.imageName} alt="das"/>
                                                                                               <p className='preco'>{prod.price}€</p>
